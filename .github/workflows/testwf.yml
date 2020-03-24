@@ -1,0 +1,38 @@
+name: package build
+
+on:
+  push:
+    branches:
+    - master
+    - branch1 # TODO: remove when branch is done
+    tags:
+    - v*
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+    steps:
+    - uses: actions/checkout@v2
+    - name: build windows
+      shell: powershell
+      run: |
+        echo doing-something
+        echo '::set-env name=UPLOAD_FILE::cutter-deps-qt-win.zip'
+    - name: Get release
+      if: (github.event_name == 'push' && github.event.ref.startsWith("refs/tags"))
+      id: get_release
+      uses: bruceadams/get-release@bd002ba27d52234748f7b393dbf717aeb9747d7b
+    - name: Upload release assets
+      if: (github.event_name == 'push' && github.event.ref.startsWith("refs/tags"))
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ steps.get_release.upload_url }}
+          asset_path: $${{ env.UPLOAD_FILE }}
