@@ -37,5 +37,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          upload_url: ${{ steps.get_release.upload_url }}
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: $${{ env.UPLOAD_FILE }}
