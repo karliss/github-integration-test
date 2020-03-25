@@ -4,7 +4,7 @@ on:
   push:
     branches:
     - master
-#    - branch1 # TODO: remove when branch is done
+    - branch1 # TODO: remove when branch is done
     tags:
     - v*
   pull_request:
@@ -29,11 +29,12 @@ jobs:
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       id: get_release
-      uses: karliss/get-release@debug-error
+      uses: karliss/get-release@bee343636450eb2e9b85d9f1592d8d73c408dc74
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload release assets
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      if: !!steps.get_release.outputs.upload_url
+      #if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: actions/upload-release-asset@v1.0.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
