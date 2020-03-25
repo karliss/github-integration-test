@@ -24,7 +24,7 @@ jobs:
       shell: powershell
       run: |
         echo doing-something
-        echo '::set-env name=UPLOAD_FILE::cutter-deps-qt-win.zip'
+        echo '::set-env name=UPLOAD_FILE::README.md'
         echo '::set-env name=UPLOAD_ASSET_TYPE::text/plain'
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
