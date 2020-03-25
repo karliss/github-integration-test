@@ -25,6 +25,7 @@ jobs:
       run: |
         echo doing-something
         echo '::set-env name=UPLOAD_FILE::cutter-deps-qt-win.zip'
+        echo '::set-env name=UPLOAD_ASSET_TYPE::text/plain'
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       id: get_release
@@ -40,3 +41,4 @@ jobs:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: $${{ env.UPLOAD_FILE }}
           asset_name: $${{ env.UPLOAD_FILE }}
+          asset_type: $${{ env.UPLOAD_ASSET_TYPE }}
