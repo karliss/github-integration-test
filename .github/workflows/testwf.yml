@@ -5,7 +5,7 @@ on:
     branches:
     - master
     - branch1 # TODO: remove when branch is done
-    - '[0-9]+[0-9]*'
+    - '[0-9]+[\.0-9]*'
     tags:
     - v*
   pull_request:
