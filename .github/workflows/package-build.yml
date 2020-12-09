@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-16.04]
+        os: [windows-2016] #[ubuntu-16.04]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
@@ -27,6 +27,14 @@ jobs:
         # make
         echo UPLOAD_FILE=cutter-deps-linux.tar.gz >> %GITHUB_ENV%
         echo UPLOAD_ASSET_TYPE=application/gzip >> %GITHUB_ENV%
+    - name: build windows
+      if: contains(matrix.os, 'windows')
+      shell: cmd
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+        set
+        cd
+        C:\msys64\usr\bin\bash -lc "pwd && env"
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       id: get_release
