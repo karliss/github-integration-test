@@ -28,7 +28,7 @@ jobs:
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       id: get_release
-      uses: karliss/get-release@348c7ae14482e8b3441531bdc894db8184e2a505
+      uses: karliss/get-release@3b510fa76c85900da91b4df80a8b6f6ce17e007b
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload release assets
