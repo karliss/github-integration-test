@@ -23,8 +23,8 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       run: |
         echo foo>bar
-        echo UPLOAD_FILE=bar >> %GITHUB_ENV%
-        echo UPLOAD_ASSET_TYPE=text/plain >> %GITHUB_ENV%
+        echo UPLOAD_FILE=bar >> $GITHUB_ENV
+        echo UPLOAD_ASSET_TYPE=text/plain >> $GITHUB_ENV
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       id: get_release
