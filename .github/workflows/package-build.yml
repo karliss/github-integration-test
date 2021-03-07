@@ -34,6 +34,11 @@ jobs:
         echo foo>$PACKAGE_ID
         echo UPLOAD_FILE=$PACKAGE_ID >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=text/plain >> $GITHUB_ENV
+    - uses: actions/upload-artifact@v2
+      if: env.UPLOAD_FILE != null
+      with:
+        name: ${{ env.UPLOAD_FILE }}
+        path: build/${{ env.UPLOAD_FILE }}
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       id: get_release
