@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - f1
     tags:
     - v*
   pull_request:
@@ -21,9 +22,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: build linux
       if: contains(matrix.os, 'ubuntu')
+      shell: bash
       run: |
-        echo foo>bar
-        echo UPLOAD_FILE=bar >> $GITHUB_ENV
+        PACKAGE_ID=${{ startsWith(github.event.ref, 'refs/tags') ? github.event.ref : ("git-" + github.sha) }}
+        PACKAGE_ID=${PACKAGE_ID##refs/tags/}
+        echo foo>$PACKAGE_ID
+        echo UPLOAD_FILE=$PACKAGE_ID >> $GITHUB_ENV
         echo UPLOAD_ASSET_TYPE=text/plain >> $GITHUB_ENV
     - name: Get release
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
