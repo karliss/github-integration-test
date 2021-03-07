@@ -24,7 +24,12 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       shell: bash
       run: |
-        PACKAGE_ID=${{ startsWith(github.event.ref, 'refs/tags') ? github.event.ref : ("git-" + github.sha) }}
+        if [[ "${{ startsWith(github.event.ref, 'refs/tags')}}" = "true" ]]
+        then
+          PACKAGE_ID="${{ github.event.ref }}"
+        else
+          PACKAGE_ID=${{ ("git-" + github.sha) }}
+        fi
         PACKAGE_ID=${PACKAGE_ID##refs/tags/}
         echo foo>$PACKAGE_ID
         echo UPLOAD_FILE=$PACKAGE_ID >> $GITHUB_ENV
