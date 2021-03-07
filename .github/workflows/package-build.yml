@@ -28,7 +28,7 @@ jobs:
         then
           PACKAGE_ID="${{ github.event.ref }}"
         else
-          PACKAGE_ID=${{ ("git-" + github.sha) }}
+          PACKAGE_ID=${{ format("git-{0}", github.sha) }}
         fi
         PACKAGE_ID=${PACKAGE_ID##refs/tags/}
         echo foo>$PACKAGE_ID
